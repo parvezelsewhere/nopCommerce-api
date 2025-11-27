@@ -464,7 +464,8 @@ namespace Nop.Plugin.Api.Controllers
             //remove newsletter subscription (if exists)
             foreach (var store in await StoreService.GetAllStoresAsync())
             {
-                var subscription = await _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreIdAsync(customer.Email, store.Id);
+                var subscriptions = await _newsLetterSubscriptionService.GetNewsLetterSubscriptionsByEmailAsync(customer.Email, store.Id);
+                var subscription = subscriptions.FirstOrDefault();
                 if (subscription != null)
                 {
                     await _newsLetterSubscriptionService.DeleteNewsLetterSubscriptionAsync(subscription);
